@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
 import { Adal4User } from './adal4-user';
 import * as adalLib from 'adal-angular';
 import { adal } from 'adal-angular';
@@ -156,8 +156,7 @@ export class Adal4Service {
             if (requestInfo.parameters['access_token']) {
               this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION)
                 , requestInfo.parameters['access_token']);
-            }
-            else if (requestInfo.parameters['error']) {
+            } else if (requestInfo.parameters['error']) {
               this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), null);
               this.adalContext._renewFailed = true;
             }

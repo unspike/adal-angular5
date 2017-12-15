@@ -7,7 +7,7 @@
     "outDir": "dist/",
     "rootDir": "src/",
     "sourceMap": true,
-    " declaration": true,
+    "declaration": true,
     "moduleResolution": "node",
     "removeComments": false,
     "lib": [
@@ -25,8 +25,8 @@
       "./src"
     ],
     "skipLibCheck": false,
-     "globalDependencies": {
-        "adal": "file:./src/adal.d.ts"
+    "globalDependencies": {
+      "adal": "file:./src/adal.d.ts"
     }
   }
 }
