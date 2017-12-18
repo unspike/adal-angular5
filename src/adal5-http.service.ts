@@ -1,40 +1,40 @@
+import { Observable } from 'rxjs/Rx';
+import { Adal5Service } from './adal5.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Adal4Service } from './adal4.service';
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 /**
  *
  *
  * @export
- * @class Adal4HTTPService
+ * @class Adal5HTTPService
  */
 @Injectable()
-export class Adal4HTTPService {
+export class Adal5HTTPService {
 
   /**
    *
    *
    * @static
    * @param {HttpClient} http
-   * @param {Adal4Service} service
+   * @param {Adal5Service} service
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
-  static factory(http: HttpClient, service: Adal4Service) {
-    return new Adal4HTTPService(http, service);
+  static factory(http: HttpClient, service: Adal5Service) {
+    return new Adal5HTTPService(http, service);
   }
 
   /**
-   * Creates an instance of Adal4HTTPService.
+   * Creates an instance of Adal5HTTPService.
    * @param {HttpClient} http
-   * @param {Adal4Service} service
+   * @param {Adal5Service} service
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   constructor(
     private http: HttpClient,
-    private service: Adal4Service
+    private service: Adal5Service
   ) { }
 
   /**
@@ -44,7 +44,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   get(url: string, options?: any): Observable<any> {
     return this.sendRequest('get', url, options);
@@ -58,7 +58,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   post(url: string, body: any, options?: any): Observable<any> {
     return this.sendRequest('post', url, options, body);
@@ -71,7 +71,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   delete(url: string, options?: any): Observable<any> {
     return this.sendRequest('delete', url, options);
@@ -85,7 +85,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   patch(url: string, body: any, options?: any): Observable<any> {
     return this.sendRequest('patch', url, options, body);
@@ -99,7 +99,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   put(url: string, body: any, options?: any): Observable<any> {
     return this.sendRequest('put', url, options, body);
@@ -112,7 +112,7 @@ export class Adal4HTTPService {
    * @param {*} [options]
    * @returns {Observable<any>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   head(url: string, options?: any): Observable<any> {
     return this.sendRequest('head', url, options);
@@ -126,22 +126,31 @@ export class Adal4HTTPService {
    * @param {RequestOptionsArgs} options
    * @returns {Observable<string>}
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   private sendRequest(method: string, url: string, options: any, body?: any): Observable<string> {
+
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
     if (resource) {
       if (this.service.userInfo.authenticated) {
         authenticatedCall = this.service.acquireToken(resource)
           .flatMap((token: string) => {
+            if (options.headers == null) {
+              let headers = new HttpHeaders();
+              headers = headers
+                .set('Authorization', `Bearer ${token}`);
+              options.headers = headers;
+            }
             return this.http.request(method, url, options)
               .catch(this.handleError);
           });
       } else {
         authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
       }
-    } else { authenticatedCall = this.http.request(method, url, options).catch(this.handleError); }
+    } else {
+      authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
+    }
 
     return authenticatedCall;
   }
@@ -153,7 +162,7 @@ export class Adal4HTTPService {
    * @param {*} error
    * @returns
    *
-   * @memberOf Adal4HTTPService
+   * @memberOf Adal5HTTPService
    */
   private handleError(error: any) {
     // In a real world app, we might send the error to remote logging infrastructure

@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { Adal4User } from './adal4-user';
 import * as adalLib from 'adal-angular';
 import { adal } from 'adal-angular';
+import { Adal5User } from './adal5-user';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import User = adal.User;
 
@@ -10,17 +10,17 @@ import User = adal.User;
  *
  *
  * @export
- * @class Adal4Service
+ * @class Adal5Service
  */
 @Injectable()
-export class Adal4Service {
+export class Adal5Service {
 
   /**
    *
    *
    * @private
    * @type {adal.AuthenticationContext}
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   private adalContext: adal.AuthenticationContext;
 
@@ -28,10 +28,10 @@ export class Adal4Service {
    *
    *
    * @private
-   * @type {Adal4User}
-   * @memberOf Adal4Service
+   * @type {Adal5User}
+   * @memberOf Adal5Service
    */
-  private adal4User: Adal4User = {
+  private adal5User: Adal5User = {
     authenticated: false,
     username: '',
     error: '',
@@ -40,9 +40,9 @@ export class Adal4Service {
   };
 
   /**
-   * Creates an instance of Adal4Service.
+   * Creates an instance of Adal5Service.
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   constructor() { }
 
@@ -51,7 +51,7 @@ export class Adal4Service {
    *
    * @param {adal.Config} configOptions
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public init(configOptions: adal.Config) {
     if (!configOptions) {
@@ -83,7 +83,7 @@ export class Adal4Service {
    *
    * @readonly
    * @type {adal.Config}
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public get config(): adal.Config {
     return this.adalContext.config;
@@ -93,18 +93,18 @@ export class Adal4Service {
    *
    *
    * @readonly
-   * @type {Adal4User}
-   * @memberOf Adal4Service
+   * @type {Adal5User}
+   * @memberOf Adal5Service
    */
-  public get userInfo(): Adal4User {
-    return this.adal4User;
+  public get userInfo(): Adal5User {
+    return this.adal5User;
   }
 
   /**
    *
    *
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public login(): void {
     this.adalContext.login();
@@ -115,7 +115,7 @@ export class Adal4Service {
    *
    * @returns {boolean}
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public loginInProgress(): boolean {
     return this.adalContext.loginInProgress();
@@ -125,7 +125,7 @@ export class Adal4Service {
    *
    *
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public logOut(): void {
     this.adalContext.logOut();
@@ -135,7 +135,7 @@ export class Adal4Service {
    *
    *
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public handleWindowCallback(): void {
     const hash = window.location.hash;
@@ -177,7 +177,7 @@ export class Adal4Service {
    * @param {string} resource
    * @returns {string}
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public getCachedToken(resource: string): string {
     return this.adalContext.getCachedToken(resource);
@@ -189,7 +189,7 @@ export class Adal4Service {
    * @param {string} resource
    * @returns
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public acquireToken(resource: string) {
     const _this = this;   // save outer this for inner function
@@ -224,7 +224,7 @@ export class Adal4Service {
    *
    * @returns {Observable<adal.User>}
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public getUser(): Observable<any> {
     return Observable.bindCallback((cb: (u: adal.User) => User) => {
@@ -243,7 +243,7 @@ export class Adal4Service {
    *
    *
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public clearCache(): void {
     this.adalContext.clearCache();
@@ -254,7 +254,7 @@ export class Adal4Service {
    *
    * @param {string} resource
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public clearCacheForResource(resource: string): void {
     this.adalContext.clearCacheForResource(resource);
@@ -265,7 +265,7 @@ export class Adal4Service {
    *
    * @param {string} message
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public info(message: string): void {
     this.adalContext.info(message);
@@ -276,7 +276,7 @@ export class Adal4Service {
    *
    * @param {string} message
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public verbose(message: string): void {
     this.adalContext.verbose(message);
@@ -288,7 +288,7 @@ export class Adal4Service {
    * @param {string} url
    * @returns {string}
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public GetResourceForEndpoint(url: string): string {
     return this.adalContext.getResourceForEndpoint(url);
@@ -298,7 +298,7 @@ export class Adal4Service {
    *
    *
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   public refreshDataFromCache() {
     this.updateDataFromCache(this.adalContext.config.loginResource);
@@ -310,22 +310,22 @@ export class Adal4Service {
    * @private
    * @param {string} resource
    *
-   * @memberOf Adal4Service
+   * @memberOf Adal5Service
    */
   private updateDataFromCache(resource: string): void {
     const token = this.adalContext.getCachedToken(resource);
-    this.adal4User.authenticated = token !== null && token.length > 0;
+    this.adal5User.authenticated = token !== null && token.length > 0;
     const user = this.adalContext.getCachedUser() || { userName: '', profile: undefined };
     if (user) {
-      this.adal4User.username = user.userName;
-      this.adal4User.profile = user.profile;
-      this.adal4User.token = token;
-      this.adal4User.error = this.adalContext.getLoginError();
+      this.adal5User.username = user.userName;
+      this.adal5User.profile = user.profile;
+      this.adal5User.token = token;
+      this.adal5User.error = this.adalContext.getLoginError();
     } else {
-      this.adal4User.username = '';
-      this.adal4User.profile = {};
-      this.adal4User.token = '';
-      this.adal4User.error = '';
+      this.adal5User.username = '';
+      this.adal5User.profile = {};
+      this.adal5User.token = '';
+      this.adal5User.error = '';
     }
   };
 }
