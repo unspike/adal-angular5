@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // main export file
-var adal4_user_1 = require("./adal4-user");
-exports.Adal4User = adal4_user_1.Adal4User;
-var adal4_service_1 = require("./adal4.service");
-exports.Adal4Service = adal4_service_1.Adal4Service;
-var adal4_http_service_1 = require("./adal4-http.service");
-exports.Adal4HTTPService = adal4_http_service_1.Adal4HTTPService;
-var adal4_interceptor_1 = require("./adal4-interceptor");
-exports.Adal4Interceptor = adal4_interceptor_1.Adal4Interceptor;
+var adal5_user_1 = require("./adal5-user");
+exports.Adal5User = adal5_user_1.Adal5User;
+var adal5_service_1 = require("./adal5.service");
+exports.Adal5Service = adal5_service_1.Adal5Service;
+var adal5_http_service_1 = require("./adal5-http.service");
+exports.Adal5HTTPService = adal5_http_service_1.Adal5HTTPService;
+var adal5_interceptor_1 = require("./adal5-interceptor");
+exports.Adal5Interceptor = adal5_interceptor_1.Adal5Interceptor;

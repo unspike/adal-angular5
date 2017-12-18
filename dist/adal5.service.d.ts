@@ -1,33 +1,33 @@
-import { Observable } from 'rxjs';
-import { Adal4User } from './adal4-user';
 import { adal } from 'adal-angular';
+import { Adal5User } from './adal5-user';
+import { Observable } from 'rxjs/Rx';
 /**
  *
  *
  * @export
- * @class Adal4Service
+ * @class Adal5Service
  */
-export declare class Adal4Service {
+export declare class Adal5Service {
     /**
      *
      *
      * @private
      * @type {adal.AuthenticationContext}
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     private adalContext;
     /**
      *
      *
      * @private
-     * @type {Adal4User}
-     * @memberOf Adal4Service
+     * @type {Adal5User}
+     * @memberOf Adal5Service
      */
-    private adal4User;
+    private adal5User;
     /**
-     * Creates an instance of Adal4Service.
+     * Creates an instance of Adal5Service.
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     constructor();
     /**
@@ -35,7 +35,7 @@ export declare class Adal4Service {
      *
      * @param {adal.Config} configOptions
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     init(configOptions: adal.Config): void;
     /**
@@ -43,22 +43,22 @@ export declare class Adal4Service {
      *
      * @readonly
      * @type {adal.Config}
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     readonly config: adal.Config;
     /**
      *
      *
      * @readonly
-     * @type {Adal4User}
-     * @memberOf Adal4Service
+     * @type {Adal5User}
+     * @memberOf Adal5Service
      */
-    readonly userInfo: Adal4User;
+    readonly userInfo: Adal5User;
     /**
      *
      *
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     login(): void;
     /**
@@ -66,21 +66,21 @@ export declare class Adal4Service {
      *
      * @returns {boolean}
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     loginInProgress(): boolean;
     /**
      *
      *
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     logOut(): void;
     /**
      *
      *
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     handleWindowCallback(): void;
     /**
@@ -89,7 +89,7 @@ export declare class Adal4Service {
      * @param {string} resource
      * @returns {string}
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     getCachedToken(resource: string): string;
     /**
@@ -98,7 +98,7 @@ export declare class Adal4Service {
      * @param {string} resource
      * @returns
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     acquireToken(resource: string): Observable<string>;
     /**
@@ -106,14 +106,14 @@ export declare class Adal4Service {
      *
      * @returns {Observable<adal.User>}
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     getUser(): Observable<any>;
     /**
      *
      *
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     clearCache(): void;
     /**
@@ -121,7 +121,7 @@ export declare class Adal4Service {
      *
      * @param {string} resource
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     clearCacheForResource(resource: string): void;
     /**
@@ -129,7 +129,7 @@ export declare class Adal4Service {
      *
      * @param {string} message
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     info(message: string): void;
     /**
@@ -137,7 +137,7 @@ export declare class Adal4Service {
      *
      * @param {string} message
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     verbose(message: string): void;
     /**
@@ -146,14 +146,14 @@ export declare class Adal4Service {
      * @param {string} url
      * @returns {string}
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     GetResourceForEndpoint(url: string): string;
     /**
      *
      *
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     refreshDataFromCache(): void;
     /**
@@ -162,7 +162,7 @@ export declare class Adal4Service {
      * @private
      * @param {string} resource
      *
-     * @memberOf Adal4Service
+     * @memberOf Adal5Service
      */
     private updateDataFromCache(resource);
 }

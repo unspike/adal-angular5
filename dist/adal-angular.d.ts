@@ -1,5 +1,5 @@
 
-// Typings needed for using ADAL with Angular 4
+// Typings needed for using ADAL with Angular 5
 declare module 'adal-angular' {
     export function inject(config: adal.Config): adal.AuthenticationContext;
 }
@@ -89,7 +89,7 @@ declare namespace adal {
      * @interface AuthenticationContextStatic
      */
     interface AuthenticationContextStatic {
-        new (config: Config): AuthenticationContext;
+        new(config: Config): AuthenticationContext;
     }
 
     /**
@@ -99,7 +99,7 @@ declare namespace adal {
      */
     interface AuthenticationContext {
 
-        // Additional items for Angular 4
+        // Additional items for Angular 5
         CONSTANTS: any;
 
         REQUEST_TYPE: {

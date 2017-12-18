@@ -2,9 +2,9 @@
  *
  *
  * @export
- * @class Adal4User
+ * @class Adal5User
  */
-export declare class Adal4User {
+export declare class Adal5User {
     authenticated: boolean;
     username: string;
     error: string;
