@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Rx';
 import { Adal5Service } from './adal5.service';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 /**
  *
@@ -46,7 +46,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  get(url: string, options?: any): Observable<any> {
+  get(url: string, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('get', url, options);
   }
 
@@ -60,7 +68,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  post(url: string, body: any, options?: any): Observable<any> {
+  post(url: string, body: any, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('post', url, options, body);
   }
 
@@ -73,7 +89,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  delete(url: string, options?: any): Observable<any> {
+  delete(url: string, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('delete', url, options);
   }
 
@@ -87,7 +111,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  patch(url: string, body: any, options?: any): Observable<any> {
+  patch(url: string, body: any, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('patch', url, options, body);
   }
 
@@ -101,7 +133,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  put(url: string, body: any, options?: any): Observable<any> {
+  put(url: string, body: any, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('put', url, options, body);
   }
 
@@ -114,7 +154,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  head(url: string, options?: any): Observable<any> {
+  head(url: string, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }): Observable<any> {
     return this.sendRequest('head', url, options);
   }
 
@@ -128,7 +176,15 @@ export class Adal5HTTPService {
    *
    * @memberOf Adal5HTTPService
    */
-  private sendRequest(method: string, url: string, options: any, body?: any): Observable<string> {
+  private sendRequest(method: string, url: string, options: {
+    body?: any;
+    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    reportProgress?: boolean;
+    observe: 'response';
+    params?: HttpParams | { [param: string]: string | string[]; };
+    responseType?: 'json';
+    withCredentials?: boolean;
+  }, body?: any): Observable<string> {
 
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
