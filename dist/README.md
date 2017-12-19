@@ -2,6 +2,6 @@
 
 ___
 
-Angular 5 Adal wrapper package. Can be used to authenticate Angular 5 applications to Azure Active Directory.
+Angular 5 Active Directory Authentication Library (ADAL) wrapper package. Can be used to authenticate Angular 5 applications to Azure Active Directory.
 
-This project is also designed to be a functional demomonstration of how to create, build, and publish NPM modules for Angular4.
+Based on https://github.com/benbaran/adal-angular4.
