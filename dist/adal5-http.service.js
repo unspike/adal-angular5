@@ -127,6 +127,7 @@ var Adal5HTTPService = (function () {
      */
     Adal5HTTPService.prototype.sendRequest = function (method, url, options, body) {
         var _this = this;
+        options.body = body;
         var resource = this.service.GetResourceForEndpoint(url);
         var authenticatedCall;
         if (resource) {
