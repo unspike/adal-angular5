@@ -63,7 +63,8 @@ var Adal5HTTPService = (function () {
      * @memberOf Adal5HTTPService
      */
     Adal5HTTPService.prototype.post = function (url, body, options) {
-        return this.sendRequest('post', url, options, body);
+        options.body = body;
+        return this.sendRequest('post', url, options);
     };
     /**
      *
@@ -88,7 +89,8 @@ var Adal5HTTPService = (function () {
      * @memberOf Adal5HTTPService
      */
     Adal5HTTPService.prototype.patch = function (url, body, options) {
-        return this.sendRequest('patch', url, options, body);
+        options.body = body;
+        return this.sendRequest('patch', url, options);
     };
     /**
      *
@@ -101,7 +103,8 @@ var Adal5HTTPService = (function () {
      * @memberOf Adal5HTTPService
      */
     Adal5HTTPService.prototype.put = function (url, body, options) {
-        return this.sendRequest('put', url, options, body);
+        options.body = body;
+        return this.sendRequest('put', url, options);
     };
     /**
      *
@@ -125,9 +128,8 @@ var Adal5HTTPService = (function () {
      *
      * @memberOf Adal5HTTPService
      */
-    Adal5HTTPService.prototype.sendRequest = function (method, url, options, body) {
+    Adal5HTTPService.prototype.sendRequest = function (method, url, options) {
         var _this = this;
-        options.body = body;
         var resource = this.service.GetResourceForEndpoint(url);
         var authenticatedCall;
         if (resource) {

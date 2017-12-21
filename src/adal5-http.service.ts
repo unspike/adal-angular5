@@ -77,7 +77,8 @@ export class Adal5HTTPService {
     responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<any> {
-    return this.sendRequest('post', url, options, body);
+    options.body = body;
+    return this.sendRequest('post', url, options);
   }
 
   /**
@@ -120,7 +121,8 @@ export class Adal5HTTPService {
     responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<any> {
-    return this.sendRequest('patch', url, options, body);
+    options.body = body;
+    return this.sendRequest('patch', url, options);
   }
 
   /**
@@ -142,7 +144,8 @@ export class Adal5HTTPService {
     responseType?: 'json';
     withCredentials?: boolean;
   }): Observable<any> {
-    return this.sendRequest('put', url, options, body);
+    options.body = body;
+    return this.sendRequest('put', url, options);
   }
 
   /**
@@ -184,9 +187,8 @@ export class Adal5HTTPService {
     params?: HttpParams | { [param: string]: string | string[]; };
     responseType?: 'json';
     withCredentials?: boolean;
-  }, body?: any): Observable<string> {
+  }): Observable<string> {
 
-    options.body = body;
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
     if (resource) {
