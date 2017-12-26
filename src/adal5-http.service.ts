@@ -201,14 +201,14 @@ export class Adal5HTTPService {
                 .set('Authorization', `Bearer ${token}`);
               options.headers = headers;
             }
-            return this.http.request(method, url, options)
+            return this.http.request(url, options)
               .catch(this.handleError);
           });
       } else {
         authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
       }
     } else {
-      authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
+      authenticatedCall = this.http.request(url, options).catch(this.handleError);
     }
 
     return authenticatedCall;
