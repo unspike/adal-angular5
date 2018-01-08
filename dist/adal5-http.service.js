@@ -142,7 +142,7 @@ var Adal5HTTPService = (function () {
                             .set('Authorization', "Bearer " + token);
                         options.headers = headers;
                     }
-                    return _this.http.request(method, url, options)
+                    return _this.http.request(url, options)
                         .catch(_this.handleError);
                 });
             }
@@ -151,7 +151,7 @@ var Adal5HTTPService = (function () {
             }
         }
         else {
-            authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
+            authenticatedCall = this.http.request(url, options).catch(this.handleError);
         }
         return authenticatedCall;
     };
