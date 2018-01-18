@@ -173,6 +173,7 @@ export class Adal5HTTPService {
    *
    *
    * @private
+   * @param {string} method
    * @param {string} url
    * @param {RequestOptionsArgs} options
    * @returns {Observable<string>}
@@ -191,24 +192,24 @@ export class Adal5HTTPService {
 
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
+    let headers: HttpHeaders;
     if (resource) {
       if (this.service.userInfo.authenticated) {
         authenticatedCall = this.service.acquireToken(resource)
           .flatMap((token: string) => {
             if (options.headers == null) {
-              let headers = new HttpHeaders();
-              headers = headers
-                .set('Authorization', `Bearer ${token}`);
-              options.headers = headers;
+              headers = new HttpHeaders();
             }
-            return this.http.request(url, options)
+            headers = headers.set('Authorization', `Bearer ${token}`);
+            options.headers = headers;
+            return this.http.request(method, url, options)
               .catch(this.handleError);
           });
       } else {
         authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
       }
     } else {
-      authenticatedCall = this.http.request(url, options).catch(this.handleError);
+      authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
     }
 
     return authenticatedCall;

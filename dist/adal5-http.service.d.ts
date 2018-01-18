@@ -167,6 +167,7 @@ export declare class Adal5HTTPService {
      *
      *
      * @private
+     * @param {string} method
      * @param {string} url
      * @param {RequestOptionsArgs} options
      * @returns {Observable<string>}

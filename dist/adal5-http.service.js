@@ -122,6 +122,7 @@ var Adal5HTTPService = (function () {
      *
      *
      * @private
+     * @param {string} method
      * @param {string} url
      * @param {RequestOptionsArgs} options
      * @returns {Observable<string>}
@@ -132,17 +133,17 @@ var Adal5HTTPService = (function () {
         var _this = this;
         var resource = this.service.GetResourceForEndpoint(url);
         var authenticatedCall;
+        var headers;
         if (resource) {
             if (this.service.userInfo.authenticated) {
                 authenticatedCall = this.service.acquireToken(resource)
                     .flatMap(function (token) {
                     if (options.headers == null) {
-                        var headers = new http_1.HttpHeaders();
-                        headers = headers
-                            .set('Authorization', "Bearer " + token);
-                        options.headers = headers;
+                        headers = new http_1.HttpHeaders();
                     }
-                    return _this.http.request(url, options)
+                    headers = headers.set('Authorization', "Bearer " + token);
+                    options.headers = headers;
+                    return _this.http.request(method, url, options)
                         .catch(_this.handleError);
                 });
             }
@@ -151,7 +152,7 @@ var Adal5HTTPService = (function () {
             }
         }
         else {
-            authenticatedCall = this.http.request(url, options).catch(this.handleError);
+            authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
         }
         return authenticatedCall;
     };
