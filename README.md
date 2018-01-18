@@ -1,4 +1,6 @@
 # adal-angular5
+![build status](https://travis-ci.org/grumar/adal-angular5.svg?branch=master)
+
 
 ___
 
