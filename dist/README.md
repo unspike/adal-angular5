@@ -1,4 +1,6 @@
 # adal-angular5
+![build status](https://travis-ci.org/grumar/adal-angular5.svg?branch=master)
+
 
 ___
 
@@ -25,3 +27,27 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
         { provide: Adal5HTTPService, useFactory: Adal5HTTPService.factory, deps: [HttpClient, Adal5Service] } //  // important! HttpClient replaces Http
   ]
 ```
+
+## Example
+
+```typescript
+import { Adal5HTTPService, Adal5Service } from 'adal-angular5';
+...
+export class HttpService {
+    constructor(
+        private adal5HttpService: Adal5HTTPService,
+        private adal5Service: Adal5Service) { }
+
+public get(url: string): Observable<any> {
+        const options = this.prepareOptions();
+        return this.adal5HttpService.get(url, options)
+    }
+    
+private prepareOptions():any{
+ let headers = new HttpHeaders();
+        headers = headers
+            .set('Content-Type', 'application/json')
+            .set('Authorization', `Bearer ${this.adal5Service.userInfo.token}`);
+        return { headers };
+}
+```        
