@@ -192,16 +192,16 @@ export class Adal5HTTPService {
 
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
-    let headers: HttpHeaders;
+    let headersCopy: HttpHeaders = new HttpHeaders();
     if (resource) {
       if (this.service.userInfo.authenticated) {
         authenticatedCall = this.service.acquireToken(resource)
           .flatMap((token: string) => {
-            if (options.headers == null) {
-              headers = new HttpHeaders();
+            if (options.headers != null) {
+              headersCopy = options.headers;
             }
-            headers = headers.set('Authorization', `Bearer ${token}`);
-            options.headers = headers;
+            headersCopy = headersCopy.append('Authorization', `Bearer ${token}`);
+            options.headers = headersCopy;
             return this.http.request(method, url, options)
               .catch(this.handleError);
           });
