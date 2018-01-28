@@ -198,7 +198,7 @@ export class Adal5HTTPService {
         authenticatedCall = this.service.acquireToken(resource)
           .flatMap((token: string) => {
             if (options.headers != null) {
-              headersCopy = options.headers;
+              headersCopy = <HttpHeaders>options.headers;
             }
             headersCopy = headersCopy.append('Authorization', `Bearer ${token}`);
             options.headers = headersCopy;
