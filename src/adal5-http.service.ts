@@ -48,7 +48,7 @@ export class Adal5HTTPService {
    */
   get(url: string, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -70,7 +70,7 @@ export class Adal5HTTPService {
    */
   post(url: string, body: any, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -92,7 +92,7 @@ export class Adal5HTTPService {
    */
   delete(url: string, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -114,7 +114,7 @@ export class Adal5HTTPService {
    */
   patch(url: string, body: any, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -137,7 +137,7 @@ export class Adal5HTTPService {
    */
   put(url: string, body: any, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -159,7 +159,7 @@ export class Adal5HTTPService {
    */
   head(url: string, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -182,7 +182,7 @@ export class Adal5HTTPService {
    */
   private sendRequest(method: string, url: string, options: {
     body?: any;
-    headers?: HttpHeaders | { [header: string]: string | string[]; };
+    headers?: HttpHeaders;
     reportProgress?: boolean;
     observe: 'response';
     params?: HttpParams | { [param: string]: string | string[]; };
@@ -192,16 +192,14 @@ export class Adal5HTTPService {
 
     const resource = this.service.GetResourceForEndpoint(url);
     let authenticatedCall: Observable<string>;
-    let headersCopy: HttpHeaders = new HttpHeaders();
     if (resource) {
       if (this.service.userInfo.authenticated) {
         authenticatedCall = this.service.acquireToken(resource)
           .flatMap((token: string) => {
-            if (options.headers != null) {
-              headersCopy = options.headers;
+            if (options.headers == null) {
+              options.headers = new HttpHeaders();
             }
-            headersCopy = headersCopy.append('Authorization', `Bearer ${token}`);
-            options.headers = headersCopy;
+            options.headers = options.headers.append('Authorization', 'Bearer ' + token);
             return this.http.request(method, url, options)
               .catch(this.handleError);
           });

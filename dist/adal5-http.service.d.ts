@@ -39,9 +39,7 @@ export declare class Adal5HTTPService {
      */
     get(url: string, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {
@@ -62,9 +60,7 @@ export declare class Adal5HTTPService {
      */
     post(url: string, body: any, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {
@@ -84,9 +80,7 @@ export declare class Adal5HTTPService {
      */
     delete(url: string, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {
@@ -107,9 +101,7 @@ export declare class Adal5HTTPService {
      */
     patch(url: string, body: any, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {
@@ -130,9 +122,7 @@ export declare class Adal5HTTPService {
      */
     put(url: string, body: any, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {
@@ -152,9 +142,7 @@ export declare class Adal5HTTPService {
      */
     head(url: string, options: {
         body?: any;
-        headers?: HttpHeaders | {
-            [header: string]: string | string[];
-        };
+        headers?: HttpHeaders;
         reportProgress?: boolean;
         observe: 'response';
         params?: HttpParams | {

@@ -133,16 +133,14 @@ var Adal5HTTPService = (function () {
         var _this = this;
         var resource = this.service.GetResourceForEndpoint(url);
         var authenticatedCall;
-        var headersCopy = new http_1.HttpHeaders();
         if (resource) {
             if (this.service.userInfo.authenticated) {
                 authenticatedCall = this.service.acquireToken(resource)
                     .flatMap(function (token) {
-                    if (options.headers != null) {
-                        headersCopy = options.headers;
+                    if (options.headers == null) {
+                        options.headers = new http_1.HttpHeaders();
                     }
-                    headersCopy = headersCopy.append('Authorization', "Bearer " + token);
-                    options.headers = headersCopy;
+                    options.headers = options.headers.append('Authorization', 'Bearer ' + token);
                     return _this.http.request(method, url, options)
                         .catch(_this.handleError);
                 });
