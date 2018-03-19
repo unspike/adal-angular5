@@ -1,34 +1,10 @@
-"use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var adalLib = require("adal-angular");
-var core_1 = require("@angular/core");
-var Rx_1 = require("rxjs/Rx");
-/**
- *
- *
- * @export
- * @class Adal5Service
- */
+import { inject } from 'adal-angular';
+import { Injectable, NgModule } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { HttpClient, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 var Adal5Service = (function () {
-    /**
-     * Creates an instance of Adal5Service.
-     *
-     * @memberOf Adal5Service
-     */
     function Adal5Service() {
-        /**
-         *
-         *
-         * @private
-         * @type {Adal5User}
-         * @memberOf Adal5Service
-         */
         this.adal5User = {
             authenticated: false,
             username: '',
@@ -37,18 +13,10 @@ var Adal5Service = (function () {
             profile: {}
         };
     }
-    /**
-     *
-     *
-     * @param {adal.Config} configOptions
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.init = function (configOptions) {
         if (!configOptions) {
             throw new Error('You must set config, when calling init.');
         }
-        // redirect and logout_redirect are set to current location by default
         var existingHash = window.location.hash;
         var pathDefault = window.location.href;
         if (existingHash) {
@@ -56,20 +24,11 @@ var Adal5Service = (function () {
         }
         configOptions.redirectUri = configOptions.redirectUri || pathDefault;
         configOptions.postLogoutRedirectUri = configOptions.postLogoutRedirectUri || pathDefault;
-        // create instance with given config
-        this.adalContext = adalLib.inject(configOptions);
-        window.AuthenticationContext = this.adalContext.constructor;
-        // loginresource is used to set authenticated status
+        this.adalContext = inject(configOptions);
+        ((window)).AuthenticationContext = this.adalContext.constructor;
         this.updateDataFromCache(this.adalContext.config.loginResource);
     };
     Object.defineProperty(Adal5Service.prototype, "config", {
-        /**
-         *
-         *
-         * @readonly
-         * @type {adal.Config}
-         * @memberOf Adal5Service
-         */
         get: function () {
             return this.adalContext.config;
         },
@@ -77,53 +36,21 @@ var Adal5Service = (function () {
         configurable: true
     });
     Object.defineProperty(Adal5Service.prototype, "userInfo", {
-        /**
-         *
-         *
-         * @readonly
-         * @type {Adal5User}
-         * @memberOf Adal5Service
-         */
         get: function () {
             return this.adal5User;
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     *
-     *
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.login = function () {
         this.adalContext.login();
     };
-    /**
-     *
-     *
-     * @returns {boolean}
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.loginInProgress = function () {
         return this.adalContext.loginInProgress();
     };
-    /**
-     *
-     *
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.logOut = function () {
         this.adalContext.logOut();
     };
-    /**
-     *
-     *
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.handleWindowCallback = function () {
         var hash = window.location.hash;
         if (this.adalContext.isCallback(hash)) {
@@ -133,12 +60,11 @@ var Adal5Service = (function () {
                 this.updateDataFromCache(this.adalContext.config.loginResource);
             }
             else if (requestInfo.requestType === this.adalContext.REQUEST_TYPE.RENEW_TOKEN) {
-                this.adalContext.callback = window.parent.callBackMappedToRenewStates[requestInfo.stateResponse];
+                this.adalContext.callback = ((window.parent)).callBackMappedToRenewStates[requestInfo.stateResponse];
             }
             if (requestInfo.stateMatch) {
                 if (typeof this.adalContext.callback === 'function') {
                     if (requestInfo.requestType === this.adalContext.REQUEST_TYPE.RENEW_TOKEN) {
-                        // Idtoken or Accestoken can be renewed
                         if (requestInfo.parameters['access_token']) {
                             this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), requestInfo.parameters['access_token']);
                         }
@@ -150,34 +76,17 @@ var Adal5Service = (function () {
                 }
             }
         }
-        // Remove hash from url
         if (window.location.hash) {
             window.location.href = window.location.href.replace(window.location.hash, '');
         }
     };
-    /**
-     *
-     *
-     * @param {string} resource
-     * @returns {string}
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.getCachedToken = function (resource) {
         return this.adalContext.getCachedToken(resource);
     };
-    /**
-     *
-     *
-     * @param {string} resource
-     * @returns
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.acquireToken = function (resource) {
-        var _this = this; // save outer this for inner function
+        var _this = this;
         var errorMessage;
-        return Rx_1.Observable.bindCallback(acquireTokenInternal, function (token) {
+        return Observable.bindCallback(acquireTokenInternal, function (token) {
             if (!token && errorMessage) {
                 throw (errorMessage);
             }
@@ -189,7 +98,7 @@ var Adal5Service = (function () {
                 if (error) {
                     _this.adalContext.error('Error when acquiring token for resource: ' + resource, error);
                     errorMessage = error;
-                    cb(null);
+                    cb((null));
                 }
                 else {
                     cb(tokenOut);
@@ -199,16 +108,9 @@ var Adal5Service = (function () {
             return s;
         }
     };
-    /**
-     *
-     *
-     * @returns {Observable<adal.User>}
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.getUser = function () {
         var _this = this;
-        return Rx_1.Observable.bindCallback(function (cb) {
+        return Observable.bindCallback(function (cb) {
             _this.adalContext.getUser(function (error, user) {
                 if (error) {
                     this.adalContext.error('Error when getting user', error);
@@ -220,73 +122,24 @@ var Adal5Service = (function () {
             });
         })();
     };
-    /**
-     *
-     *
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.clearCache = function () {
         this.adalContext.clearCache();
     };
-    /**
-     *
-     *
-     * @param {string} resource
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.clearCacheForResource = function (resource) {
         this.adalContext.clearCacheForResource(resource);
     };
-    /**
-     *
-     *
-     * @param {string} message
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.info = function (message) {
         this.adalContext.info(message);
     };
-    /**
-     *
-     *
-     * @param {string} message
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.verbose = function (message) {
         this.adalContext.verbose(message);
     };
-    /**
-     *
-     *
-     * @param {string} url
-     * @returns {string}
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.GetResourceForEndpoint = function (url) {
         return this.adalContext.getResourceForEndpoint(url);
     };
-    /**
-     *
-     *
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.refreshDataFromCache = function () {
         this.updateDataFromCache(this.adalContext.config.loginResource);
     };
-    /**
-     *
-     *
-     * @private
-     * @param {string} resource
-     *
-     * @memberOf Adal5Service
-     */
     Adal5Service.prototype.updateDataFromCache = function (resource) {
         var token = this.adalContext.getCachedToken(resource);
         this.adal5User.authenticated = token !== null && token.length > 0;
@@ -304,10 +157,123 @@ var Adal5Service = (function () {
             this.adal5User.error = '';
         }
     };
-    ;
-    Adal5Service = __decorate([
-        core_1.Injectable()
-    ], Adal5Service);
+    
     return Adal5Service;
 }());
-exports.Adal5Service = Adal5Service;
+Adal5Service.decorators = [
+    { type: Injectable },
+];
+Adal5Service.ctorParameters = function () { return []; };
+var Adal5Interceptor = (function () {
+    function Adal5Interceptor(adal5Service) {
+        this.adal5Service = adal5Service;
+    }
+    Adal5Interceptor.prototype.intercept = function (request, next) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: "Bearer " + this.adal5Service.userInfo.token
+            }
+        });
+        return next.handle(request);
+    };
+    return Adal5Interceptor;
+}());
+Adal5Interceptor.decorators = [
+    { type: Injectable },
+];
+Adal5Interceptor.ctorParameters = function () { return [
+    { type: Adal5Service, },
+]; };
+var Adal5User = (function () {
+    function Adal5User() {
+    }
+    return Adal5User;
+}());
+var Adal5HTTPService = (function () {
+    function Adal5HTTPService(http, service) {
+        this.http = http;
+        this.service = service;
+    }
+    Adal5HTTPService.factory = function (http, service) {
+        return new Adal5HTTPService(http, service);
+    };
+    Adal5HTTPService.prototype.get = function (url, options) {
+        return this.sendRequest('get', url, options);
+    };
+    Adal5HTTPService.prototype.post = function (url, body, options) {
+        options.body = body;
+        return this.sendRequest('post', url, options);
+    };
+    Adal5HTTPService.prototype.delete = function (url, options) {
+        return this.sendRequest('delete', url, options);
+    };
+    Adal5HTTPService.prototype.patch = function (url, body, options) {
+        options.body = body;
+        return this.sendRequest('patch', url, options);
+    };
+    Adal5HTTPService.prototype.put = function (url, body, options) {
+        options.body = body;
+        return this.sendRequest('put', url, options);
+    };
+    Adal5HTTPService.prototype.head = function (url, options) {
+        return this.sendRequest('head', url, options);
+    };
+    Adal5HTTPService.prototype.sendRequest = function (method, url, options) {
+        var _this = this;
+        var resource = this.service.GetResourceForEndpoint(url);
+        var authenticatedCall;
+        if (resource) {
+            if (this.service.userInfo.authenticated) {
+                authenticatedCall = this.service.acquireToken(resource)
+                    .flatMap(function (token) {
+                    if (options.headers == null) {
+                        options.headers = new HttpHeaders();
+                    }
+                    options.headers = options.headers.append('Authorization', 'Bearer ' + token);
+                    return _this.http.request(method, url, options)
+                        .catch(_this.handleError);
+                });
+            }
+            else {
+                authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
+            }
+        }
+        else {
+            authenticatedCall = this.http.request(method, url, options).catch(this.handleError);
+        }
+        return authenticatedCall;
+    };
+    Adal5HTTPService.prototype.handleError = function (error) {
+        var errMsg = error.message || 'Server error';
+        console.error(JSON.stringify(error));
+        return Observable.throw(error);
+    };
+    return Adal5HTTPService;
+}());
+Adal5HTTPService.decorators = [
+    { type: Injectable },
+];
+Adal5HTTPService.ctorParameters = function () { return [
+    { type: HttpClient, },
+    { type: Adal5Service, },
+]; };
+var Adal5AngularModule = (function () {
+    function Adal5AngularModule() {
+    }
+    return Adal5AngularModule;
+}());
+Adal5AngularModule.decorators = [
+    { type: NgModule, args: [{
+                imports: [],
+                exports: [
+                    Adal5User, Adal5Service, Adal5HTTPService, Adal5Interceptor
+                ],
+                providers: [
+                    { provide: HTTP_INTERCEPTORS, useClass: Adal5Interceptor, multi: true }
+                ],
+            },] },
+];
+Adal5AngularModule.ctorParameters = function () { return []; };
+
+export { Adal5AngularModule, Adal5HTTPService as ɵc, Adal5Interceptor as ɵd, Adal5User as ɵa, Adal5Service as ɵb };
+//# sourceMappingURL=adal-angular5.js.map
