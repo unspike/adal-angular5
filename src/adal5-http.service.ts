@@ -3,49 +3,19 @@ import { Adal5Service } from './adal5.service';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-/**
- *
- *
- * @export
- * @class Adal5HTTPService
- */
 @Injectable()
 export class Adal5HTTPService {
 
-  /**
-   *
-   *
-   * @static
-   * @param {HttpClient} http
-   * @param {Adal5Service} service
-   *
-   * @memberOf Adal5HTTPService
-   */
   static factory(http: HttpClient, service: Adal5Service) {
     return new Adal5HTTPService(http, service);
   }
 
-  /**
-   * Creates an instance of Adal5HTTPService.
-   * @param {HttpClient} http
-   * @param {Adal5Service} service
-   *
-   * @memberOf Adal5HTTPService
-   */
+
   constructor(
     private http: HttpClient,
     private service: Adal5Service
   ) { }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   get(url: string, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -58,16 +28,6 @@ export class Adal5HTTPService {
     return this.sendRequest('get', url, options);
   }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} body
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   post(url: string, body: any, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -81,15 +41,6 @@ export class Adal5HTTPService {
     return this.sendRequest('post', url, options);
   }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   delete(url: string, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -102,16 +53,6 @@ export class Adal5HTTPService {
     return this.sendRequest('delete', url, options);
   }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} body
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   patch(url: string, body: any, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -125,16 +66,6 @@ export class Adal5HTTPService {
     return this.sendRequest('patch', url, options);
   }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} body
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   put(url: string, body: any, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -148,15 +79,6 @@ export class Adal5HTTPService {
     return this.sendRequest('put', url, options);
   }
 
-  /**
-   *
-   *
-   * @param {string} url
-   * @param {*} [options]
-   * @returns {Observable<any>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   head(url: string, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -169,17 +91,6 @@ export class Adal5HTTPService {
     return this.sendRequest('head', url, options);
   }
 
-  /**
-   *
-   *
-   * @private
-   * @param {string} method
-   * @param {string} url
-   * @param {RequestOptionsArgs} options
-   * @returns {Observable<string>}
-   *
-   * @memberOf Adal5HTTPService
-   */
   private sendRequest(method: string, url: string, options: {
     body?: any;
     headers?: HttpHeaders;
@@ -213,15 +124,6 @@ export class Adal5HTTPService {
     return authenticatedCall;
   }
 
-  /**
-   *
-   *
-   * @private
-   * @param {*} error
-   * @returns
-   *
-   * @memberOf Adal5HTTPService
-   */
   private handleError(error: any) {
     // In a real world app, we might send the error to remote logging infrastructure
     const errMsg = error.message || 'Server error';
