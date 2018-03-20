@@ -14,7 +14,8 @@
         "pack": "npm pack ./dist/",
         "publish": "npm publish --tag beta",
         "publish-prod": "npm publish",
-        "ci": "npm run lint && npm run test"
+        "test:once": "ng test --watch=false",
+        "ci": "npm run lint && npm run test:once"
     },
     "repository": {
         "type": "git",
