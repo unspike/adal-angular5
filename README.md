@@ -52,3 +52,7 @@ private prepareOptions():any{
         return { headers };
 }
 ```        
+
+# How to create package and publish it
+1. go to `src` directory
+1. run `npm run packagr-publish`
