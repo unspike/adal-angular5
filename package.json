@@ -15,7 +15,8 @@
         "publish": "npm publish ./packagr-dist/ --tag beta",
         "publish-prod": "npm publish ./packagr-dist/",
         "test:once": "ng test --watch=false",
-        "ci": "npm run lint && npm run test:once"
+        "ci": "npm run lint && npm run test:once",
+        "packagr-publish": "npm version patch && npm run packagr && npm run pack && npm run publish"
     },
     "repository": {
         "type": "git",
