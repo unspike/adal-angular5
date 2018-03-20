@@ -17,11 +17,11 @@ export class Adal5HTTPService {
         private service: Adal5Service
     ) { }
 
-    get(url: string, options: {
+    get(url: string, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -29,11 +29,11 @@ export class Adal5HTTPService {
         return this.sendRequest('get', url, options);
     }
 
-    post(url: string, body: any, options: {
+    post(url: string, body: any, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -42,11 +42,11 @@ export class Adal5HTTPService {
         return this.sendRequest('post', url, options);
     }
 
-    delete(url: string, options: {
+    delete(url: string, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -54,11 +54,11 @@ export class Adal5HTTPService {
         return this.sendRequest('delete', url, options);
     }
 
-    patch(url: string, body: any, options: {
+    patch(url: string, body: any, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -67,11 +67,11 @@ export class Adal5HTTPService {
         return this.sendRequest('patch', url, options);
     }
 
-    put(url: string, body: any, options: {
+    put(url: string, body: any, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -80,11 +80,11 @@ export class Adal5HTTPService {
         return this.sendRequest('put', url, options);
     }
 
-    head(url: string, options: {
+    head(url: string, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
@@ -92,15 +92,29 @@ export class Adal5HTTPService {
         return this.sendRequest('head', url, options);
     }
 
-    private sendRequest(method: string, url: string, options: {
+    private sendRequest(method: string, url: string, options?: {
         body?: any;
         headers?: HttpHeaders;
         reportProgress?: boolean;
-        observe: 'response';
+        observe?: 'response';
         params?: HttpParams | { [param: string]: string | string[]; };
         responseType?: 'json';
         withCredentials?: boolean;
     }): Observable<string> {
+
+        if (!options) {
+            options = {
+                body: null,
+                headers: null,
+                reportProgress: null,
+                observe: 'response',
+                params: null,
+                responseType: 'json',
+                withCredentials: null
+            };
+        }
+
+
         const resource = this.service.GetResourceForEndpoint(url);
         let authenticatedCall: Observable<string>;
         if (resource) {
