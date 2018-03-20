@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
         console.log('token: ' + this.service.userInfo.token);
     }
 
-    private getDummyData() {
+    public getDummyData() {
         this.dogsData$ = this.http.get('https://dog.ceo/api/breeds/list', { observe: 'response' })
             .map(response => response.body);
 
