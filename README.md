@@ -23,6 +23,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 ...
     imports: [..., HttpClientModule  ], // important! HttpClientModule replaces HttpModule
     providers: [
+        HttpClient,
         Adal5Service,
         { provide: Adal5HTTPService, useFactory: Adal5HTTPService.factory, deps: [HttpClient, Adal5Service] } //  // important! HttpClient replaces Http
   ]
