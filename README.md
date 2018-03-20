@@ -43,15 +43,14 @@ public get(url: string): Observable<any> {
         const options = this.prepareOptions();
         return this.adal5HttpService.get(url, options)
     }
-    
+
 private prepareOptions():any{
  let headers = new HttpHeaders();
         headers = headers
             .set('Content-Type', 'application/json')
-            .set('Authorization', `Bearer ${this.adal5Service.userInfo.token}`);
         return { headers };
 }
-```        
+```
 
 # How to create package and publish it
 1. go to `src` directory
