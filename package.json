@@ -11,9 +11,9 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "packagr": "ng-packagr -p ng-package.json",
-        "pack": "npm pack ./dist/",
-        "publish": "npm publish --tag beta",
-        "publish-prod": "npm publish",
+        "pack": "npm pack ./packagr-dist/",
+        "publish": "npm publish ./packagr-dist/ --tag beta",
+        "publish-prod": "npm publish ./packagr-dist/",
         "test:once": "ng test --watch=false",
         "ci": "npm run lint && npm run test:once"
     },
