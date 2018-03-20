@@ -20,7 +20,6 @@ const userInfo: Adal5User = {
     profile: {}
 };
 const resource = 'resource';
-const options: adal.Config = <adal.Config>{};
 const httpHeaders = [Object({ name: 'Authorization', value: 'Bearer access_token', op: 'a' })];
 // httpOptions.headers = httpOptions.headers.append('Authorization', 'Bearer ' + token);
 

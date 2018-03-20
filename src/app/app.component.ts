@@ -16,33 +16,38 @@ const config: adal.Config = {
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-    title = 'app';
-    public dogs: Observable<any>;
+    public firstBreed: any;
+    public title = 'app';
+    public dogsData$: Observable<any>;
 
     constructor(private service: Adal5Service, private http: Adal5HTTPService) {
         this.service.init(config);
     }
     ngOnInit() {
+        this.loginUser();
+        this.getDummyData();
+    }
+
+    private loginUser() {
         // Handle callback if this is a redirect from Azure
         this.service.handleWindowCallback();
-
         // Check if the user is authenticated. If not, call the login() method
         if (!this.service.userInfo.authenticated) {
             this.service.login();
         }
-
         // Log the user information to the console
         console.log('username ' + this.service.userInfo.username);
-
         console.log('authenticated: ' + this.service.userInfo.authenticated);
-
-        console.log('name: ' + this.service.userInfo.profile.name);
-
         console.log('token: ' + this.service.userInfo.token);
+    }
 
-        console.log(this.service.userInfo.profile);
+    private getDummyData() {
+        this.dogsData$ = this.http.get('https://dog.ceo/api/breeds/list', { observe: 'response' })
+            .map(response => response.body);
 
-        this.dogs = this.http.get('https://dog.ceo/api/breeds/image/random', { observe: 'response' }).map(response => response.body);
+        const sub = this.dogsData$.subscribe(data => {
+            this.firstBreed = data.message[0];
+        });
     }
 
     // Logout Method
