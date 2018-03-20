@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Adal5Service } from './adal5-angular/adal5.service';
-import { adal } from './adal5-angular/adal';
 import { Adal5HTTPService } from './adal5-angular/adal5-http.service';
 
 

@@ -1,8 +1,8 @@
 (function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('adal-angular'), require('@angular/core'), require('rxjs/Rx'), require('@angular/common/http')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'adal-angular', '@angular/core', 'rxjs/Rx', '@angular/common/http'], factory) :
-	(factory((global['adal-angular5'] = {}),global.adalAngular,global.ng.core,global.Rx,global.ng.common.http));
-}(this, (function (exports,adalAngular,core,Rx,http) { 'use strict';
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('rxjs/Observable'), require('adal-angular'), require('rxjs/Rx'), require('@angular/common/http'), require('@angular/common')) :
+	typeof define === 'function' && define.amd ? define(['exports', '@angular/core', 'rxjs/Observable', 'adal-angular', 'rxjs/Rx', '@angular/common/http', '@angular/common'], factory) :
+	(factory((global['adal-angular5'] = {}),global.ng.core,global.Rx,global.adalAngular,global.Rx,global.ng.common.http,global.ng.common));
+}(this, (function (exports,core,Observable,adalAngular,Rx,http,common) { 'use strict';
 
 var Adal5Service = (function () {
     function Adal5Service() {
@@ -87,7 +87,7 @@ var Adal5Service = (function () {
     Adal5Service.prototype.acquireToken = function (resource) {
         var _this = this;
         var errorMessage;
-        return Rx.Observable.bindCallback(acquireTokenInternal, function (token) {
+        return Observable.Observable.bindCallback(acquireTokenInternal, function (token) {
             if (!token && errorMessage) {
                 throw (errorMessage);
             }
@@ -111,7 +111,7 @@ var Adal5Service = (function () {
     };
     Adal5Service.prototype.getUser = function () {
         var _this = this;
-        return Rx.Observable.bindCallback(function (cb) {
+        return Observable.Observable.bindCallback(function (cb) {
             _this.adalContext.getUser(function (error, user) {
                 if (error) {
                     this.adalContext.error('Error when getting user', error);
@@ -164,31 +164,6 @@ Adal5Service.decorators = [
     { type: core.Injectable },
 ];
 Adal5Service.ctorParameters = function () { return []; };
-var Adal5Interceptor = (function () {
-    function Adal5Interceptor(adal5Service) {
-        this.adal5Service = adal5Service;
-    }
-    Adal5Interceptor.prototype.intercept = function (request, next) {
-        request = request.clone({
-            setHeaders: {
-                Authorization: "Bearer " + this.adal5Service.userInfo.token
-            }
-        });
-        return next.handle(request);
-    };
-    return Adal5Interceptor;
-}());
-Adal5Interceptor.decorators = [
-    { type: core.Injectable },
-];
-Adal5Interceptor.ctorParameters = function () { return [
-    { type: Adal5Service, },
-]; };
-var Adal5User = (function () {
-    function Adal5User() {
-    }
-    return Adal5User;
-}());
 var Adal5HTTPService = (function () {
     function Adal5HTTPService(http$$1, service) {
         this.http = http$$1;
@@ -257,6 +232,31 @@ Adal5HTTPService.ctorParameters = function () { return [
     { type: http.HttpClient, },
     { type: Adal5Service, },
 ]; };
+var Adal5Interceptor = (function () {
+    function Adal5Interceptor(adal5Service) {
+        this.adal5Service = adal5Service;
+    }
+    Adal5Interceptor.prototype.intercept = function (request, next) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: "Bearer " + this.adal5Service.userInfo.token
+            }
+        });
+        return next.handle(request);
+    };
+    return Adal5Interceptor;
+}());
+Adal5Interceptor.decorators = [
+    { type: core.Injectable },
+];
+Adal5Interceptor.ctorParameters = function () { return [
+    { type: Adal5Service, },
+]; };
+var Adal5User = (function () {
+    function Adal5User() {
+    }
+    return Adal5User;
+}());
 var Adal5AngularModule = (function () {
     function Adal5AngularModule() {
     }
@@ -264,22 +264,16 @@ var Adal5AngularModule = (function () {
 }());
 Adal5AngularModule.decorators = [
     { type: core.NgModule, args: [{
-                imports: [],
-                exports: [
-                    Adal5User, Adal5Service, Adal5HTTPService, Adal5Interceptor
-                ],
-                providers: [
-                    { provide: http.HTTP_INTERCEPTORS, useClass: Adal5Interceptor, multi: true }
-                ],
+                imports: [common.CommonModule],
             },] },
 ];
 Adal5AngularModule.ctorParameters = function () { return []; };
 
+exports.Adal5HTTPService = Adal5HTTPService;
+exports.Adal5Interceptor = Adal5Interceptor;
+exports.Adal5User = Adal5User;
+exports.Adal5Service = Adal5Service;
 exports.Adal5AngularModule = Adal5AngularModule;
-exports.ɵc = Adal5HTTPService;
-exports.ɵd = Adal5Interceptor;
-exports.ɵa = Adal5User;
-exports.ɵb = Adal5Service;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

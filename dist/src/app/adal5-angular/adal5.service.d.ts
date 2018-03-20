@@ -1,6 +1,6 @@
-import { adal } from 'adal-angular';
 import { Adal5User } from './adal5-user';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
+import { adal } from 'adal-angular';
 export declare class Adal5Service {
     private adalContext;
     private adal5User;

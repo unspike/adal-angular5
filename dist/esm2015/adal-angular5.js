@@ -1,7 +1,9 @@
-import { inject } from 'adal-angular';
 import { Injectable, NgModule } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { HttpClient, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { inject } from 'adal-angular';
+import { Observable as Observable$1 } from 'rxjs/Rx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 /**
  * @fileoverview added by tsickle
@@ -232,46 +234,6 @@ Adal5Service.ctorParameters = () => [];
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
-class Adal5Interceptor {
-    /**
-     * @param {?} adal5Service
-     */
-    constructor(adal5Service) {
-        this.adal5Service = adal5Service;
-    }
-    /**
-     * @param {?} request
-     * @param {?} next
-     * @return {?}
-     */
-    intercept(request, next) {
-        request = request.clone({
-            setHeaders: {
-                Authorization: `Bearer ${this.adal5Service.userInfo.token}`
-            }
-        });
-        return next.handle(request);
-    }
-}
-Adal5Interceptor.decorators = [
-    { type: Injectable },
-];
-/** @nocollapse */
-Adal5Interceptor.ctorParameters = () => [
-    { type: Adal5Service, },
-];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
-class Adal5User {
-}
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes} checked by tsc
- */
 class Adal5HTTPService {
     /**
      * @param {?} http
@@ -365,7 +327,7 @@ class Adal5HTTPService {
                 });
             }
             else {
-                authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
+                authenticatedCall = Observable$1.throw(new Error('User Not Authenticated.'));
             }
         }
         else {
@@ -381,7 +343,7 @@ class Adal5HTTPService {
         // In a real world app, we might send the error to remote logging infrastructure
         const /** @type {?} */ errMsg = error.message || 'Server error';
         console.error(JSON.stringify(error)); // log to console instead
-        return Observable.throw(error);
+        return Observable$1.throw(error);
     }
 }
 Adal5HTTPService.decorators = [
@@ -397,17 +359,51 @@ Adal5HTTPService.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes} checked by tsc
  */
+class Adal5Interceptor {
+    /**
+     * @param {?} adal5Service
+     */
+    constructor(adal5Service) {
+        this.adal5Service = adal5Service;
+    }
+    /**
+     * @param {?} request
+     * @param {?} next
+     * @return {?}
+     */
+    intercept(request, next) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: `Bearer ${this.adal5Service.userInfo.token}`
+            }
+        });
+        return next.handle(request);
+    }
+}
+Adal5Interceptor.decorators = [
+    { type: Injectable },
+];
+/** @nocollapse */
+Adal5Interceptor.ctorParameters = () => [
+    { type: Adal5Service, },
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
+class Adal5User {
+}
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes} checked by tsc
+ */
 class Adal5AngularModule {
 }
 Adal5AngularModule.decorators = [
     { type: NgModule, args: [{
-                imports: [],
-                exports: [
-                    Adal5User, Adal5Service, Adal5HTTPService, Adal5Interceptor
-                ],
-                providers: [
-                    { provide: HTTP_INTERCEPTORS, useClass: Adal5Interceptor, multi: true }
-                ],
+                imports: [CommonModule],
             },] },
 ];
 /** @nocollapse */
@@ -426,5 +422,5 @@ Adal5AngularModule.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { Adal5AngularModule, Adal5HTTPService as ɵc, Adal5Interceptor as ɵd, Adal5User as ɵa, Adal5Service as ɵb };
+export { Adal5HTTPService, Adal5Interceptor, Adal5User, Adal5Service, Adal5AngularModule };
 //# sourceMappingURL=adal-angular5.js.map

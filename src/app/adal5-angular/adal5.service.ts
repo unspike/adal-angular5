@@ -1,10 +1,9 @@
 import { Adal5User } from './adal5-user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { adal } from './adal';
 import User = adal.User;
-import { adalAngular } from './adal-angular';
-
+import * as adalLib from 'adal-angular';
+import { adal } from 'adal-angular';
 
 @Injectable()
 export class Adal5Service {
@@ -42,7 +41,7 @@ export class Adal5Service {
         configOptions.postLogoutRedirectUri = configOptions.postLogoutRedirectUri || pathDefault;
 
         // create instance with given config
-        this.adalContext = adalAngular.inject(configOptions);
+        this.adalContext = adalLib.inject(configOptions);
 
         (window as any).AuthenticationContext = this.adalContext.constructor;
 

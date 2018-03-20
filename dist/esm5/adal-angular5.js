@@ -1,7 +1,9 @@
-import { inject } from 'adal-angular';
 import { Injectable, NgModule } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { HttpClient, HttpHeaders, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { inject } from 'adal-angular';
+import { Observable as Observable$1 } from 'rxjs/Rx';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 var Adal5Service = (function () {
     function Adal5Service() {
@@ -164,31 +166,6 @@ Adal5Service.decorators = [
     { type: Injectable },
 ];
 Adal5Service.ctorParameters = function () { return []; };
-var Adal5Interceptor = (function () {
-    function Adal5Interceptor(adal5Service) {
-        this.adal5Service = adal5Service;
-    }
-    Adal5Interceptor.prototype.intercept = function (request, next) {
-        request = request.clone({
-            setHeaders: {
-                Authorization: "Bearer " + this.adal5Service.userInfo.token
-            }
-        });
-        return next.handle(request);
-    };
-    return Adal5Interceptor;
-}());
-Adal5Interceptor.decorators = [
-    { type: Injectable },
-];
-Adal5Interceptor.ctorParameters = function () { return [
-    { type: Adal5Service, },
-]; };
-var Adal5User = (function () {
-    function Adal5User() {
-    }
-    return Adal5User;
-}());
 var Adal5HTTPService = (function () {
     function Adal5HTTPService(http, service) {
         this.http = http;
@@ -235,7 +212,7 @@ var Adal5HTTPService = (function () {
                 });
             }
             else {
-                authenticatedCall = Observable.throw(new Error('User Not Authenticated.'));
+                authenticatedCall = Observable$1.throw(new Error('User Not Authenticated.'));
             }
         }
         else {
@@ -246,7 +223,7 @@ var Adal5HTTPService = (function () {
     Adal5HTTPService.prototype.handleError = function (error) {
         var errMsg = error.message || 'Server error';
         console.error(JSON.stringify(error));
-        return Observable.throw(error);
+        return Observable$1.throw(error);
     };
     return Adal5HTTPService;
 }());
@@ -257,6 +234,31 @@ Adal5HTTPService.ctorParameters = function () { return [
     { type: HttpClient, },
     { type: Adal5Service, },
 ]; };
+var Adal5Interceptor = (function () {
+    function Adal5Interceptor(adal5Service) {
+        this.adal5Service = adal5Service;
+    }
+    Adal5Interceptor.prototype.intercept = function (request, next) {
+        request = request.clone({
+            setHeaders: {
+                Authorization: "Bearer " + this.adal5Service.userInfo.token
+            }
+        });
+        return next.handle(request);
+    };
+    return Adal5Interceptor;
+}());
+Adal5Interceptor.decorators = [
+    { type: Injectable },
+];
+Adal5Interceptor.ctorParameters = function () { return [
+    { type: Adal5Service, },
+]; };
+var Adal5User = (function () {
+    function Adal5User() {
+    }
+    return Adal5User;
+}());
 var Adal5AngularModule = (function () {
     function Adal5AngularModule() {
     }
@@ -264,16 +266,10 @@ var Adal5AngularModule = (function () {
 }());
 Adal5AngularModule.decorators = [
     { type: NgModule, args: [{
-                imports: [],
-                exports: [
-                    Adal5User, Adal5Service, Adal5HTTPService, Adal5Interceptor
-                ],
-                providers: [
-                    { provide: HTTP_INTERCEPTORS, useClass: Adal5Interceptor, multi: true }
-                ],
+                imports: [CommonModule],
             },] },
 ];
 Adal5AngularModule.ctorParameters = function () { return []; };
 
-export { Adal5AngularModule, Adal5HTTPService as ɵc, Adal5Interceptor as ɵd, Adal5User as ɵa, Adal5Service as ɵb };
+export { Adal5HTTPService, Adal5Interceptor, Adal5User, Adal5Service, Adal5AngularModule };
 //# sourceMappingURL=adal-angular5.js.map
