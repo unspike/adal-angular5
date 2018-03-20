@@ -13,7 +13,8 @@
         "packagr": "ng-packagr -p ng-package.json",
         "pack": "npm pack ./dist/",
         "publish": "npm publish --tag beta",
-        "publish-prod": "npm publish"
+        "publish-prod": "npm publish",
+        "ci": "npm run lint && npm run test"
     },
     "repository": {
         "type": "git",

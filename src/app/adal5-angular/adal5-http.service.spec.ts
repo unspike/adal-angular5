@@ -11,7 +11,7 @@ let httpClient: HttpClient;
 let adal5Service: any = {};
 
 const httpResponseOK: any = { id: 1, message: 'OK' };
-const token: string = 'access_token';
+const token = 'access_token';
 const userInfo: Adal5User = {
     authenticated: true,
     username: '',

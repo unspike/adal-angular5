@@ -1,9 +1,10 @@
 import { Adal5User } from './adal5-user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import User = adal.User;
 import * as adalLib from 'adal-angular';
-import { adal } from 'adal-angular';
+import adal = require('adal');
+import User = adal.User;
+
 
 @Injectable()
 export class Adal5Service {
@@ -112,6 +113,7 @@ export class Adal5Service {
                             this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION)
                                 , requestInfo.parameters['id_token']);
                         } else if (requestInfo.parameters['error']) {
+                            // tslint:disable-next-line:max-line-length
                             this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), null);
                             this.adalContext._renewFailed = true;
                         }
@@ -219,5 +221,5 @@ export class Adal5Service {
             this.adal5User.token = '';
             this.adal5User.error = '';
         }
-    };
+    }
 }

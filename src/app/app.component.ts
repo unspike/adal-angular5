@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -8,7 +9,7 @@ import { Adal5HTTPService } from './adal5-angular/adal5-http.service';
 const config: adal.Config = {
     tenant: 'XXXXXX.onmicrosoft.com',
     clientId: 'XXXXXX-XXXXXXXX-XXXXXXXXX'
-}
+};
 
 
 @Component({
@@ -24,7 +25,9 @@ export class AppComponent implements OnInit {
         this.service.init(config);
     }
     ngOnInit() {
-        this.loginUser();
+        if (environment.production) {
+            this.loginUser();
+        }
         this.getDummyData();
     }
 

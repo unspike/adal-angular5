@@ -115,6 +115,8 @@ declare namespace adal {
 
         _renewFailed: any;
 
+        _openedWindows: any[];
+
         // Original ADAL Types
         instance: string;
         config: Config;
