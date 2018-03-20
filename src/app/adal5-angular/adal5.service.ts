@@ -2,7 +2,9 @@ import { Adal5User } from './adal5-user';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import * as adalLib from 'adal-angular';
-import { adal } from 'adal-angular';
+
+// for creating package switch line below with: import { adal } from 'adal-angular';
+import adal = require('adal');
 import User = adal.User;
 
 
