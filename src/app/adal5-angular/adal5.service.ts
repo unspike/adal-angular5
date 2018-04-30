@@ -4,8 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import * as adalLib from 'adal-angular';
 
 // for creating package switch line below with: import { adal } from 'adal-angular';
-import adal = require('adal');
+// import adal = require('adal');
+
+import { adal } from 'adal-angular';
 import User = adal.User;
+
 
 
 @Injectable()
