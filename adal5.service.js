@@ -127,25 +127,40 @@ var Adal5Service = (function () {
     Adal5Service.prototype.handleWindowCallback = function () {
         var hash = window.location.hash;
         if (this.adalContext.isCallback(hash)) {
-            var requestInfo = this.adalContext.getRequestInfo(hash);
+            if (window.parent && window.parent.AuthenticationContext) {
+                this.adalContext = window.parent.AuthenticationContext();
+            }
+            this.adalContext.verbose('Processing the hash: ' + hash);
+            var requestInfo = this.adalContext.getRequestInfo(hash);        
             this.adalContext.saveTokenFromHash(requestInfo);
-            if (requestInfo.requestType === this.adalContext.REQUEST_TYPE.LOGIN) {
-                this.updateDataFromCache(this.adalContext.config.loginResource);
-            }
-            else if (requestInfo.requestType === this.adalContext.REQUEST_TYPE.RENEW_TOKEN) {
-                this.adalContext.callback = window.parent.callBackMappedToRenewStates[requestInfo.stateResponse];
-            }
-            if (requestInfo.stateMatch) {
-                if (typeof this.adalContext.callback === 'function') {
+
+            var callback = this.adalContext._callBackMappedToRenewStates[requestInfo.stateResponse] || this.adalContext.callback;
+
+            if (requestInfo.stateMatch)     {
+                if (callback && typeof callback === 'function') {
                     if (requestInfo.requestType === this.adalContext.REQUEST_TYPE.RENEW_TOKEN) {
                         // Idtoken or Accestoken can be renewed
                         if (requestInfo.parameters['access_token']) {
-                            this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), requestInfo.parameters['access_token']);
+                            callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), requestInfo.parameters['access_token']);
                         }
-                        else if (requestInfo.parameters['error']) {
-                            this.adalContext.callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), null);
-                            this.adalContext._renewFailed = true;
+                        else if (requestInfo.parameters['id_token']) {
+                            callback(this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.ERROR_DESCRIPTION), requestInfo.parameters['id_token']);
                         }
+                    }
+                }
+                else{
+                    // normal full login redirect happened on the page
+                    this.updateDataFromCache(this.adalContext.config.loginResource);
+                    if (this.adal5User.userName) {
+                        //IDtoken is added as token for the app
+                        window.setTimeout(()=> {
+                            this.updateDataFromCache(this.adalContext.config.loginResource);
+                            // redirect to login requested page
+                            var loginStartPage = this.adalContext._getItem(this.adalContext.CONSTANTS.STORAGE.START_PAGE);
+                            if (loginStartPage) {
+                                window.location.path(loginStartPage);
+                            }
+                        }, 1);
                     }
                 }
             }
